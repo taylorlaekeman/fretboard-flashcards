@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "ci": "npm run typecheck && npm run format:check && npm run lint && npm run test",
+    "dev": "next dev",
+    "format": "prettier --write src/* __tests__/* --log-level warn",
+    "format:check": "prettier --check src/* __tests__/* --log-level warn",
+    "lint": "next lint",
     "start": "next start",
-    "lint": "next lint"
+    "test": "jest",
+    "typecheck": "tsc -p . --noEmit"
   },
   "dependencies": {
     "@types/node": "20.5.6",
@@ -18,5 +23,15 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.2.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.2",
+    "@testing-library/react": "^14.0.0",
+    "@types/jest": "^29.5.4",
+    "eslint-config-prettier": "^9.0.0",
+    "jest": "^29.6.4",
+    "jest-environment-jsdom": "^29.6.4",
+    "prettier": "3.0.2",
+    "ts-jest": "^29.1.1"
   }
 }

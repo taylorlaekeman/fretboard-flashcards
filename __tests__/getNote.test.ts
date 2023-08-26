@@ -80,7 +80,6 @@ test.each([
   [1, 10, Note.D],
   [1, 11, Note.DSharpEFlat],
   [1, 12, Note.E],
-  /**/
 ])('get note with string %d and fret %d is %s', (string, fret, note) => {
   expect(getNote(string, fret)).toBe(note);
 });

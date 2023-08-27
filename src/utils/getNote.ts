@@ -1,20 +1,21 @@
+import String from '@/types/string';
 import { Note } from '@/types/note';
 
-function getNote(string: number, fret: number): Note {
+function getNote(string: String, fret: number): Note {
   if (!(string in openNoteIndicesByString)) throw new Error();
   const openNoteIndex = openNoteIndicesByString[string];
   const notes = Object.keys(Note);
-  const noteIndex = (openNoteIndex + fret) % notes.length;
+  const noteIndex = (openNoteIndex + (fret % 12)) % notes.length;
   return Object.values(Note)[noteIndex];
 }
 
-const openNoteIndicesByString: Record<number, number> = {
-  6: 7, // E
-  5: 0, // A
-  4: 5, // D
-  3: 10, // G
-  2: 2, // B
-  1: 7, // E
+const openNoteIndicesByString: Record<String, number> = {
+  [String.E]: 7, // E
+  [String.A]: 0, // A
+  [String.D]: 5, // D
+  [String.G]: 10, // G
+  [String.B]: 2, // B
+  [String.e]: 7, // E
 };
 
 export default getNote;

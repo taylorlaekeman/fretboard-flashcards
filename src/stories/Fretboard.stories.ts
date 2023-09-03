@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Fretboard from '@/components/Fretboard';
+import Fretboard, { Length } from '@/components/Fretboard';
 import String from '@/types/string';
 
 const meta: Meta<typeof Fretboard> = {
@@ -9,9 +9,18 @@ const meta: Meta<typeof Fretboard> = {
 
 type Story = StoryObj<typeof Fretboard>;
 
-export const Normal: Story = {
+export const TwentyFour: Story = {
   args: {
     fret: 0,
+    length: Length.TwentyFour,
+    string: String.E,
+  },
+};
+
+export const Twelve: Story = {
+  args: {
+    fret: 0,
+    length: Length.Twelve,
     string: String.E,
   },
 };

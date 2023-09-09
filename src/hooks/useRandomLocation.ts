@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import Location from '@/types/location';
 import String from '@/types/string';
+import getRandomNumber from '@/utils/getRandomNumber';
 
 function useRandomLocation(): Result {
   const [fret, setFret] = useState<number>(getRandomNumber(13));
@@ -19,10 +20,6 @@ function useRandomLocation(): Result {
 
 interface Result extends Location {
   refresh: () => void;
-}
-
-function getRandomNumber(max: number): number {
-  return Math.floor(Math.random() * max);
 }
 
 function getRandomString(): String {

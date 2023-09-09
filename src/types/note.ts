@@ -1,14 +1,16 @@
 export enum Note {
-  A = 'a',
-  ASharpBFlat = 'a-sharp-b-flat',
-  B = 'b',
-  C = 'c',
-  CSharpDFlat = 'c-sharp-d-flat',
-  D = 'd',
-  DSharpEFlat = 'd-sharp-e-flat',
-  E = 'e',
-  F = 'f',
-  FSharpGFlat = 'f-sharp-g-flat',
-  G = 'g',
-  GSharpAFlat = 'g-sharp-a-flat',
+  A = 'A',
+  ASharpBFlat = 'A#/Bb',
+  B = 'B',
+  C = 'C',
+  CSharpDFlat = 'C#/Db',
+  D = 'D',
+  DSharpEFlat = 'D#/Eb',
+  E = 'E',
+  F = 'F',
+  FSharpGFlat = 'F#/Gb',
+  G = 'G',
+  GSharpAFlat = 'G#/Ab',
 }
+
+export default Note;

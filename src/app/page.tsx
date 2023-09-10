@@ -1,11 +1,11 @@
 'use client';
 import styles from '@/app/page.module.css';
-import FretboardFlashcards from '@/components/FretboardFlashcards';
+import Home from '@/components/Home';
 
-export default function Home() {
+export default function Page() {
   return (
     <main className={styles.main}>
-      <FretboardFlashcards />
+      <Home />
     </main>
   );
 }

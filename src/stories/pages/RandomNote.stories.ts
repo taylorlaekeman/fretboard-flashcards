@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import RandomNote from '@/pages/random-note';
+import RandomNote from '@/app/randomnote/page';
 
 const meta: Meta<typeof RandomNote> = {
   component: RandomNote,

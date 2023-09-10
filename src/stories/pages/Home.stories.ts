@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import App from '@/components/App';
+import Home from '@/app/page';
 
-const meta: Meta<typeof App> = {
-  component: App,
+const meta: Meta<typeof Home> = {
+  component: Home,
   title: 'Pages/Home',
 };
 
-type Story = StoryObj<typeof App>;
+type Story = StoryObj<typeof Home>;
 
 export const Normal: Story = {
   args: {},

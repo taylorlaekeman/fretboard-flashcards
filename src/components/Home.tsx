@@ -1,10 +1,12 @@
 import React, { FC } from 'react';
 
+import Link from 'next/link';
+
 const Home: FC = () => (
   <>
     <h1>Guitar Dojo</h1>
-    <a href="/fretboard-flashcards">Fretboard Flashcards</a>
-    <a href="/randomnote">Random Note</a>
+    <Link href="/fretboard-flashcards.html">Fretboard Flashcards</Link>
+    <Link href="/randomnote.html">Random Note</Link>
   </>
 );
 

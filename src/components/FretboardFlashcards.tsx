@@ -6,7 +6,7 @@ import useRandomLocation from '@/hooks/useRandomLocation';
 import { Note } from '@/types/note';
 import getNote from '@/utils/getNote';
 
-const App: FC = () => {
+const FretboardFlashcards: FC = () => {
   const { fret, refresh, string } = useRandomLocation();
   const note = getNote(string, fret);
   const [selectedNote, setSelectedNote] = useState<Note>();
@@ -35,4 +35,4 @@ const App: FC = () => {
   );
 };
 
-export default App;
+export default FretboardFlashcards;

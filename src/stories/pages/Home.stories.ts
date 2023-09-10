@@ -4,6 +4,7 @@ import App from '@/components/App';
 
 const meta: Meta<typeof App> = {
   component: App,
+  title: 'Pages/Home',
 };
 
 type Story = StoryObj<typeof App>;

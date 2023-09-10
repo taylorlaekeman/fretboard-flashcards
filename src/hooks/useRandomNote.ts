@@ -8,7 +8,9 @@ function useRandomNote(): { note: Note; refresh: () => void } {
   return {
     note,
     refresh: () => {
-      setNote(getRandomNote());
+      let newNote = getRandomNote();
+      while (newNote === note) newNote = getRandomNote();
+      setNote(newNote);
     },
   };
 }

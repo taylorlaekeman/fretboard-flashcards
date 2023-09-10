@@ -56,7 +56,7 @@ const FretboardContext = createContext<{
 }>({
   fretPositions: FRET_POSITIONS,
   stringPositions: getStringPositions(),
-  stringWidths: [1, 1, 2, 2, 3, 3],
+  stringWidths: [1, 1, 2, 3, 3, 4],
 });
 
 function getStringPositions(): number[] {
@@ -158,7 +158,7 @@ const Note: FC<{ fret?: number; string?: StringType }> = ({ fret, string }) => {
   const stringNumber = parseInt(string, 10);
   const stringPosition = stringPositions[stringNumber - 1];
   return (
-    <circle cx={fretPosition - 20} cy={stringPosition} r="10" fill="black" />
+    <circle cx={fretPosition - 20} cy={stringPosition} r="10" fill="orange" />
   );
 };
 

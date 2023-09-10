@@ -5,6 +5,7 @@ import String from '@/types/string';
 
 const meta: Meta<typeof Flashcard> = {
   component: Flashcard,
+  title: 'Components/Flashcard',
 };
 
 type Story = StoryObj<typeof Flashcard>;

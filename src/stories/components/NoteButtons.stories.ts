@@ -4,6 +4,7 @@ import NoteButtons from '@/components/NoteButtons';
 
 const meta: Meta<typeof NoteButtons> = {
   component: NoteButtons,
+  title: 'Components/NoteButtons',
 };
 
 type Story = StoryObj<typeof NoteButtons>;

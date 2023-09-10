@@ -5,6 +5,7 @@ import String from '@/types/string';
 
 const meta: Meta<typeof Fretboard> = {
   component: Fretboard,
+  title: 'Components/Fretboard',
 };
 
 type Story = StoryObj<typeof Fretboard>;

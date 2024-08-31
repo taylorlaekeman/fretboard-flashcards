@@ -1,32 +1,58 @@
-import React, { FC } from 'react';
+import React from 'react';
 
-import Button from '@/components/Button';
+import { Button, Shape, Variant } from '@/components/Button';
 import { Note } from '@/types/note';
 
-const NoteButtons: FC<{ onChange?: (note: Note) => void }> = ({
+function NoteButtons({
   onChange = () => {},
-}) => {
+  selectedNote,
+}: {
+  onChange?: (note: Note) => void;
+  selectedNote?: Note;
+}): React.ReactElement {
   return (
-    <div>
-      <Button onClick={() => onChange(Note.GSharpAFlat)}>A Flat</Button>
-      <Button onClick={() => onChange(Note.A)}>A</Button>
-      <Button onClick={() => onChange(Note.ASharpBFlat)}>A Sharp</Button>
-      <Button onClick={() => onChange(Note.ASharpBFlat)}>B Flat</Button>
-      <Button onClick={() => onChange(Note.B)}>B</Button>
-      <Button onClick={() => onChange(Note.C)}>C</Button>
-      <Button onClick={() => onChange(Note.CSharpDFlat)}>C Sharp</Button>
-      <Button onClick={() => onChange(Note.CSharpDFlat)}>D Flat</Button>
-      <Button onClick={() => onChange(Note.D)}>D</Button>
-      <Button onClick={() => onChange(Note.DSharpEFlat)}>D Sharp</Button>
-      <Button onClick={() => onChange(Note.DSharpEFlat)}>E Flat</Button>
-      <Button onClick={() => onChange(Note.E)}>E</Button>
-      <Button onClick={() => onChange(Note.F)}>F</Button>
-      <Button onClick={() => onChange(Note.FSharpGFlat)}>F Sharp</Button>
-      <Button onClick={() => onChange(Note.FSharpGFlat)}>G Flat</Button>
-      <Button onClick={() => onChange(Note.G)}>G</Button>
-      <Button onClick={() => onChange(Note.GSharpAFlat)}>G Sharp</Button>
-    </div>
+    <>
+      {NOTES.map(({ label, value }) => (
+        <Button
+          key={label}
+          onClick={() => onChange(value)}
+          shape={Shape.Round}
+          variant={selectedNote === value ? Variant.Selected : Variant.Normal}
+        >
+          {label}
+        </Button>
+      ))}
+    </>
   );
-};
+}
+
+const SHARP = String.fromCharCode(9839);
+
+const FLAT = String.fromCharCode(9837);
+
+const NOTES: NoteDetail[] = [
+  { label: `A${FLAT}`, value: Note.GSharpAFlat },
+  { label: 'A', value: Note.A },
+  { label: `A${SHARP}`, value: Note.ASharpBFlat },
+  { label: `B${FLAT}`, value: Note.ASharpBFlat },
+  { label: 'B', value: Note.B },
+  { label: 'C', value: Note.C },
+  { label: `C${SHARP}`, value: Note.CSharpDFlat },
+  { label: `D${FLAT}`, value: Note.CSharpDFlat },
+  { label: 'D', value: Note.D },
+  { label: `D${SHARP}`, value: Note.DSharpEFlat },
+  { label: `E${FLAT}`, value: Note.DSharpEFlat },
+  { label: 'E', value: Note.E },
+  { label: 'F', value: Note.F },
+  { label: `F${SHARP}`, value: Note.FSharpGFlat },
+  { label: `G${FLAT}`, value: Note.FSharpGFlat },
+  { label: 'G', value: Note.G },
+  { label: `G${SHARP}`, value: Note.GSharpAFlat },
+];
+
+interface NoteDetail {
+  label: string;
+  value: Note;
+}
 
 export default NoteButtons;

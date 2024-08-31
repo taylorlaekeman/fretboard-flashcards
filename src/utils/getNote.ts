@@ -1,7 +1,7 @@
 import String from '@/types/string';
 import { Note } from '@/types/note';
 
-function getNote(string: String, fret: number): Note {
+export function getNote(string: String, fret: number): Note {
   if (!(string in openNoteIndicesByString)) throw new Error();
   const openNoteIndex = openNoteIndicesByString[string];
   const notes = Object.keys(Note);

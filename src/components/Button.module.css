@@ -1,0 +1,16 @@
+.button {
+  background-color: white;
+  border: solid grey 1px;
+  border-radius: 4px;
+}
+
+.button.round {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
+
+.button.selected {
+  border: solid blue 1px;
+  background-color: lightblue;
+}

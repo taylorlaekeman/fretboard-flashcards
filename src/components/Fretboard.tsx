@@ -1,6 +1,7 @@
 import React, { createContext, FC, useContext } from 'react';
 
-import StringType from '@/types/string';
+import styles from './Fretboard.module.css';
+import StringType from '../types/string';
 
 const Fretboard: FC<{
   fret?: number;
@@ -12,7 +13,10 @@ const Fretboard: FC<{
   const neckWidth = 170;
   makeList(6);
   return (
-    <svg viewBox={`0 0 ${neckLength} ${neckWidth}`}>
+    <svg
+      className={styles.fretboard}
+      viewBox={`0 0 ${neckLength} ${neckWidth}`}
+    >
       <Nut />
       {makeList(6).map((number) => (
         <String

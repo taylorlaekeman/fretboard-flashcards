@@ -76,7 +76,7 @@ function getStringPositions(): number[] {
 }
 
 const Nut: FC = () => (
-  <line x1="45" y1="0" x2="45" y2="100%" stroke="black" stroke-width="10" />
+  <line x1="45" y1="0" x2="45" y2="100%" stroke="black" strokeWidth="10" />
 );
 
 const String: FC<{
@@ -93,7 +93,7 @@ const String: FC<{
       x2="100%"
       y2={verticalPosition}
       stroke="black"
-      stroke-width={stringWidths[number - 1]}
+      strokeWidth={stringWidths[number - 1]}
     />
   );
 };
@@ -108,7 +108,7 @@ const Fret: FC<{ number?: number }> = ({ number = 1 }) => {
       x2={horizontalPosition}
       y2="100%"
       stroke="black"
-      stroke-width="4px"
+      strokeWidth="4px"
     />
   );
 };
@@ -155,7 +155,13 @@ const FretMarker: FC<{ fret?: number; isDouble?: boolean }> = ({
   );
 };
 
-const Note: FC<{ fret?: number; string?: StringType }> = ({ fret, string }) => {
+function Note({
+  fret,
+  string,
+}: {
+  fret?: number;
+  string?: StringType;
+}): React.ReactNode {
   const { fretPositions, stringPositions } = useContext(FretboardContext);
   if (fret === undefined || !string) return;
   const fretPosition = fret === 0 ? 40 : fretPositions[fret - 1];
@@ -164,7 +170,7 @@ const Note: FC<{ fret?: number; string?: StringType }> = ({ fret, string }) => {
   return (
     <circle cx={fretPosition - 20} cy={stringPosition} r="10" fill="orange" />
   );
-};
+}
 
 function makeList(upTo: number = 0): number[] {
   const result = [];

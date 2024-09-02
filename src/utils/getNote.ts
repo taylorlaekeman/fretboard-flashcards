@@ -10,12 +10,12 @@ export function getNote(string: String, fret: number): Note {
 }
 
 const openNoteIndicesByString: Record<String, number> = {
-  [String.E]: 7, // E
-  [String.A]: 0, // A
-  [String.D]: 5, // D
-  [String.G]: 10, // G
-  [String.B]: 2, // B
-  [String.e]: 7, // E
+  [String.E]: 7,
+  [String.A]: 0,
+  [String.D]: 5,
+  [String.G]: 10,
+  [String.B]: 2,
+  [String.e]: 7,
 };
 
 export default getNote;

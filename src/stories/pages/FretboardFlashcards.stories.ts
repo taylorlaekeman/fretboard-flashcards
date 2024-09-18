@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import FretboardFlashcards from '@/app/fretboard-flashcards/page';
+import FretboardFlashcards from '../../components/FretboardFlashcards';
 
 const meta: Meta<typeof FretboardFlashcards> = {
   component: FretboardFlashcards,

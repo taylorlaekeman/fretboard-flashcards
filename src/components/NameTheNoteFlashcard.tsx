@@ -1,8 +1,11 @@
+import clsx from 'clsx';
 import React from 'react';
 
 import { Button } from './Button';
 import Fretboard from './Fretboard';
+import styles from './NameTheNoteFlashcard.module.css';
 import NoteButtons from './NoteButtons';
+import { PageWrapper } from './PageWrapper';
 import { Note } from '../types/note';
 import GuitarString from '../types/string';
 import { getNote } from '../utils/getNote';
@@ -26,7 +29,9 @@ export function NameTheNoteFlashcard({
 }): React.ReactElement {
   return (
     <FlashcardWrapper onNext={onNext} onSubmit={onSubmit} status={status}>
-      <Fretboard fret={noteFret} string={noteString} />
+      <div className={styles.fretboard}>
+        <Fretboard fret={noteFret} string={noteString} />
+      </div>
       <NoteButtons onChange={onSelectNote} selectedNote={selectedNote} />
     </FlashcardWrapper>
   );
@@ -44,11 +49,13 @@ function FlashcardWrapper({
   status?: ResultStatus;
 }): React.ReactElement {
   return (
-    <>
+    <div className={styles.wrapper}>
       {children}
-      <FlashcardResultSection status={status} />
-      <FlashcardControlGroup onNext={onNext} onSubmit={onSubmit} />
-    </>
+      <div className={styles.footer}>
+        <FlashcardResultSection status={status} />
+        <FlashcardControlGroup onNext={onNext} onSubmit={onSubmit} />
+      </div>
+    </div>
   );
 }
 
@@ -58,10 +65,14 @@ function FlashcardResultSection({
   status?: ResultStatus;
 }): React.ReactElement {
   return (
-    <>
-      {status === ResultStatus.Correct && <p>Correct!</p>}
-      {status === ResultStatus.Incorrect && <p>Incorrect</p>}
-    </>
+    <div>
+      {status === ResultStatus.Correct && (
+        <p className={clsx(styles.resultBadge, styles.correct)}>Correct!</p>
+      )}
+      {status === ResultStatus.Incorrect && (
+        <p className={clsx(styles.resultBadge, styles.incorrect)}>Try again</p>
+      )}
+    </div>
   );
 }
 
@@ -78,10 +89,10 @@ function FlashcardControlGroup({
   onSubmit?: () => void;
 }): React.ReactElement {
   return (
-    <>
+    <div className={styles.buttons}>
       <Button onClick={onSubmit}>Submit</Button>
       <Button onClick={onNext}>Next</Button>
-    </>
+    </div>
   );
 }
 
@@ -133,4 +144,12 @@ function getStatus({
   const correctNote = getNote(noteString, noteFret);
   if (selectedNote === correctNote) return ResultStatus.Correct;
   return ResultStatus.Incorrect;
+}
+
+export function NameTheNoteFlashcardPage(): React.ReactElement {
+  return (
+    <PageWrapper>
+      <NameTheNoteFlashcardContainer />
+    </PageWrapper>
+  );
 }

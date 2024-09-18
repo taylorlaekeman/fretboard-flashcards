@@ -2,11 +2,16 @@
   background-color: white;
   border: solid grey 1px;
   border-radius: 4px;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 8px 16px;
 }
 
 .button.round {
   border-radius: 50%;
+  font-size: 0.8rem;
   height: 30px;
+  padding: 0;
   width: 30px;
 }
 

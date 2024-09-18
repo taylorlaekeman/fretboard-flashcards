@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import {
   NameTheNoteFlashcard,
   NameTheNoteFlashcardContainer,
+  NameTheNoteFlashcardPage,
   ResultStatus,
 } from '../components/NameTheNoteFlashcard';
 import { Note } from '../types/note';
@@ -31,7 +32,7 @@ export const Incorrect: Story = {
   args: { status: ResultStatus.Incorrect },
 };
 
-export const Interactive: Story = {
+export const Container: Story = {
   render: () => <NameTheNoteFlashcardContainer />,
 };
 

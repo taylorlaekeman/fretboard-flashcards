@@ -11,7 +11,7 @@ function NoteButtons({
   selectedNote?: Note;
 }): React.ReactElement {
   return (
-    <>
+    <div>
       {NOTES.map(({ label, value }) => (
         <Button
           key={label}
@@ -22,7 +22,7 @@ function NoteButtons({
           {label}
         </Button>
       ))}
-    </>
+    </div>
   );
 }
 

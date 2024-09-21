@@ -1,6 +1,6 @@
 'use client';
-import Home from '@/components/Home';
+import { NameTheNoteFlashcardPage } from '../components/NameTheNoteFlashcard';
 
 export default function Page() {
-  return <Home />;
+  return <NameTheNoteFlashcardPage />;
 }

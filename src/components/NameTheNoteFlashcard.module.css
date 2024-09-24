@@ -2,14 +2,21 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 64px;
+  gap: 24px;
   height: 100%;
   justify-content: space-between;
 }
 
-.fretboard {
+.body {
   display: flex;
   flex: 1;
+  flex-direction: row;
+  height: 50%;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -32,10 +39,4 @@
 .resultBadge.incorrect {
   background: #ffe4e1;
   color: #660000;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
 }

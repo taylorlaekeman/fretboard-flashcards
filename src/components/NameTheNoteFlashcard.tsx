@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 
 import { Button } from './Button';
-import Fretboard from './Fretboard';
+import Fretboard, { Orientation } from './Fretboard';
 import styles from './NameTheNoteFlashcard.module.css';
 import NoteButtons from './NoteButtons';
 import { PageWrapper } from './PageWrapper';
@@ -29,9 +29,11 @@ export function NameTheNoteFlashcard({
 }): React.ReactElement {
   return (
     <FlashcardWrapper onNext={onNext} onSubmit={onSubmit} status={status}>
-      <div className={styles.fretboard}>
-        <Fretboard fret={noteFret} string={noteString} />
-      </div>
+      <Fretboard
+        fret={noteFret}
+        orientation={Orientation.Vertical}
+        string={noteString}
+      />
       <NoteButtons onChange={onSelectNote} selectedNote={selectedNote} />
     </FlashcardWrapper>
   );
@@ -50,7 +52,7 @@ function FlashcardWrapper({
 }): React.ReactElement {
   return (
     <div className={styles.wrapper}>
-      {children}
+      <div className={styles.body}>{children}</div>
       <div className={styles.footer}>
         <FlashcardResultSection status={status} />
         <FlashcardControlGroup onNext={onNext} onSubmit={onSubmit} />

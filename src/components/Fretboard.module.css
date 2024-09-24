@@ -1,3 +1,6 @@
-svg.fretboard {
+svg.fretboard.horizontal {
   width: 100%;
+}
+
+svg.fretboard.vertical {
 }

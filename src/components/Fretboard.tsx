@@ -1,47 +1,87 @@
+import clsx from 'clsx';
 import React, { createContext, FC, useContext } from 'react';
 
 import styles from './Fretboard.module.css';
 import StringType from '../types/string';
 
-const Fretboard: FC<{
+export function Fretboard({
+  fret,
+  length = Length.Twelve,
+  orientation = Orientation.Horizontal,
+  string,
+}: {
   fret?: number;
   length?: Length;
+  orientation?: Orientation;
   string?: StringType;
-}> = ({ fret, length = Length.Twelve, string }) => {
+}): React.ReactElement {
   const gapAroundStrings = 10;
   const neckLength = FRET_POSITIONS[length - 1] + 12;
   const neckWidth = 170;
-  makeList(6);
+  const viewBox =
+    orientation === Orientation.Horizontal
+      ? { x: neckLength, y: neckWidth }
+      : {
+          x: neckWidth,
+          y: neckLength,
+        };
   return (
     <svg
-      className={styles.fretboard}
-      viewBox={`0 0 ${neckLength} ${neckWidth}`}
+      className={clsx(styles.fretboard, styles[orientation])}
+      height="100%"
+      viewBox={`0 0 ${viewBox.x} ${viewBox.y}`}
+      width="100%"
     >
-      <Nut />
+      <Nut orientation={orientation} />
       {makeList(6).map((number) => (
         <String
           gapAround={gapAroundStrings}
           key={number}
           neckWidth={neckWidth}
           number={number + 1}
+          orientation={orientation}
+          viewBox={viewBox}
         />
       ))}
       {makeList(length).map((number) => (
-        <Fret key={number} number={number + 1} />
+        <Fret key={number} number={number + 1} orientation={orientation} />
       ))}
-      <FretMarker fret={3} />
-      <FretMarker fret={5} />
-      <FretMarker fret={7} />
-      <FretMarker fret={9} />
-      <FretMarker fret={12} isDouble />
-      {length >= 15 && <FretMarker fret={15} />}
-      {length >= 17 && <FretMarker fret={17} />}
-      {length >= 19 && <FretMarker fret={19} />}
-      {length >= 21 && <FretMarker fret={21} />}
-      <Note fret={fret} string={string} />
+      <FretMarker fret={3} orientation={orientation} viewBox={viewBox} />
+      <FretMarker fret={5} orientation={orientation} viewBox={viewBox} />
+      <FretMarker fret={7} orientation={orientation} viewBox={viewBox} />
+      <FretMarker fret={9} orientation={orientation} viewBox={viewBox} />
+      <FretMarker
+        fret={12}
+        isDouble
+        orientation={orientation}
+        viewBox={viewBox}
+      />
+      {length >= 15 && (
+        <FretMarker fret={15} orientation={orientation} viewBox={viewBox} />
+      )}
+      {length >= 17 && (
+        <FretMarker fret={17} orientation={orientation} viewBox={viewBox} />
+      )}
+      {length >= 19 && (
+        <FretMarker fret={19} orientation={orientation} viewBox={viewBox} />
+      )}
+      {length >= 21 && (
+        <FretMarker fret={21} orientation={orientation} viewBox={viewBox} />
+      )}
+      <Note
+        fret={fret}
+        orientation={orientation}
+        string={string}
+        viewBox={viewBox}
+      />
     </svg>
   );
-};
+}
+
+export enum Orientation {
+  Horizontal = 'horizontal',
+  Vertical = 'vertical',
+}
 
 const FRET_POSITIONS = [
   175, 302, 422, 535, 642, 743, 838, 928, 1013, 1093, 1169, 1240, 1307, 1371,
@@ -75,100 +115,154 @@ function getStringPositions(): number[] {
   return result;
 }
 
-const Nut: FC = () => (
-  <line x1="45" y1="0" x2="45" y2="100%" stroke="black" strokeWidth="10" />
-);
+function Nut({
+  orientation,
+}: {
+  orientation: Orientation;
+}): React.ReactElement {
+  return (
+    <RadialLine
+      offset={45}
+      orientation={orientation}
+      stroke="bisque"
+      width={10}
+    />
+  );
+}
 
-const String: FC<{
+interface Positions {
+  x1: number | string;
+  x2: number | string;
+  y1: number | string;
+  y2: number | string;
+}
+
+interface ViewBox {
+  x: number;
+  y: number;
+}
+
+function String({
+  gapAround = 10,
+  neckWidth = 170,
+  number = 1,
+  orientation,
+  viewBox,
+}: {
   gapAround?: number;
   neckWidth?: number;
   number?: number;
-}> = ({ gapAround = 10, neckWidth = 170, number = 1 }) => {
+  orientation: Orientation;
+  viewBox: ViewBox;
+}): React.ReactElement {
   const { stringPositions, stringWidths } = useContext(FretboardContext);
-  const verticalPosition = stringPositions[number - 1];
   return (
-    <line
-      x1="0"
-      y1={verticalPosition}
-      x2="100%"
-      y2={verticalPosition}
-      stroke="black"
-      strokeWidth={stringWidths[number - 1]}
+    <AxialLine
+      offset={stringPositions[number - 1]}
+      orientation={orientation}
+      stroke="grey"
+      viewBox={viewBox}
+      width={stringWidths[number - 1]}
     />
   );
-};
+}
 
-const Fret: FC<{ number?: number }> = ({ number = 1 }) => {
+function Fret({
+  number = 1,
+  orientation,
+}: {
+  number?: number;
+  orientation: Orientation;
+}): React.ReactElement {
   const { fretPositions } = useContext(FretboardContext);
-  const horizontalPosition = fretPositions[number - 1];
   return (
-    <line
-      x1={horizontalPosition}
-      y1="0"
-      x2={horizontalPosition}
-      y2="100%"
-      stroke="black"
-      strokeWidth="4px"
+    <RadialLine
+      offset={fretPositions[number - 1]}
+      orientation={orientation}
+      stroke="slategrey"
+      width={4}
     />
   );
-};
+}
 
-const FretMarker: FC<{ fret?: number; isDouble?: boolean }> = ({
+function FretMarker({
   fret = 3,
   isDouble = false,
-}) => {
+  orientation,
+  viewBox,
+}: {
+  fret?: number;
+  isDouble?: boolean;
+  orientation: Orientation;
+  viewBox: ViewBox;
+}): React.ReactElement {
   const { fretPositions } = useContext(FretboardContext);
   const fretBelowPosition = fretPositions[fret - 1];
   const fretAbovePosition = fretPositions[fret];
   const fretWidth = fretBelowPosition - fretAbovePosition;
-  const fretHorizontalCenter = fretBelowPosition + fretWidth / 2;
-  const verticalCenter = 85;
-  const doubleOffset = 30;
-  const verticalPosition = isDouble
-    ? verticalCenter + doubleOffset - 10
-    : verticalCenter - 10;
+  const axialCenter = fretBelowPosition + fretWidth / 2;
+  const radialCenter = 85;
+  const doublePosition = 30;
   return (
     <>
-      <rect
-        x={fretHorizontalCenter - 10}
-        y={verticalPosition}
-        width="20"
-        height="20"
-        fill="black"
-        transform="rotate(45)"
-        transform-origin={`${fretHorizontalCenter} ${verticalPosition + 10}`}
+      <Circle
+        axialPosition={axialCenter}
+        fill="silver"
+        orientation={orientation}
+        radialPosition={isDouble ? radialCenter + doublePosition : radialCenter}
+        radius={10}
+        viewBox={viewBox}
       />
       {isDouble && (
-        <rect
-          x={fretHorizontalCenter - 10}
-          y={verticalCenter - doubleOffset - 10}
-          width="20"
-          height="20"
-          fill="black"
-          transform="rotate(45)"
-          transform-origin={`${fretHorizontalCenter} ${
-            verticalCenter - doubleOffset
-          }`}
+        <Circle
+          axialPosition={axialCenter}
+          fill="silver"
+          orientation={orientation}
+          radialPosition={radialCenter - doublePosition}
+          radius={10}
+          viewBox={viewBox}
         />
       )}
     </>
   );
-};
+}
 
 function Note({
   fret,
+  orientation,
   string,
+  viewBox,
 }: {
   fret?: number;
+  orientation: Orientation;
   string?: StringType;
+  viewBox: ViewBox;
 }): React.ReactNode {
   const { fretPositions, stringPositions } = useContext(FretboardContext);
   if (fret === undefined || !string) return;
-  const fretPosition = fret === 0 ? 40 : fretPositions[fret - 1];
   const stringNumber = parseInt(string, 10);
   const stringPosition = stringPositions[stringNumber - 1];
+  if (fret === 0)
+    return (
+      <Circle
+        axialPosition={20}
+        orientation={orientation}
+        radialPosition={stringPosition}
+        radius={10}
+        fill="orange"
+        viewBox={viewBox}
+      />
+    );
+  const fretStart = fret > 1 ? fretPositions[fret - 2] : 45;
+  const fretEnd = fretPositions[fret - 1];
   return (
-    <circle cx={fretPosition - 20} cy={stringPosition} r="10" fill="orange" />
+    <Pill
+      axialPosition={fretStart + 10}
+      orientation={orientation}
+      radialPosition={stringPosition}
+      length={fretEnd - fretStart - 20}
+      viewBox={viewBox}
+    />
   );
 }
 
@@ -178,6 +272,145 @@ function makeList(upTo: number = 0): number[] {
     result.push(i);
   }
   return result;
+}
+
+function RadialLine({
+  offset,
+  orientation,
+  stroke = 'black',
+  width,
+}: {
+  offset: number;
+  orientation: Orientation;
+  stroke?: string;
+  width: number;
+}): React.ReactElement {
+  const positions: Positions =
+    orientation === Orientation.Horizontal
+      ? {
+          x1: offset,
+          x2: offset,
+          y1: 0,
+          y2: '100%',
+        }
+      : {
+          x1: 0,
+          x2: '100%',
+          y1: offset,
+          y2: offset,
+        };
+  return (
+    <line
+      x1={positions.x1}
+      x2={positions.x2}
+      y1={positions.y1}
+      y2={positions.y2}
+      stroke={stroke}
+      strokeWidth={width}
+    />
+  );
+}
+
+function AxialLine({
+  offset,
+  orientation,
+  stroke = 'black',
+  viewBox,
+  width,
+}: {
+  offset: number;
+  orientation: Orientation;
+  stroke?: string;
+  viewBox: ViewBox;
+  width: number;
+}): React.ReactElement {
+  const positions: Positions =
+    orientation === Orientation.Horizontal
+      ? {
+          x1: 0,
+          x2: '100%',
+          y1: offset,
+          y2: offset,
+        }
+      : {
+          x1: viewBox.x - offset,
+          x2: viewBox.x - offset,
+          y1: 0,
+          y2: '100%',
+        };
+  return (
+    <line
+      x1={positions.x1}
+      x2={positions.x2}
+      y1={positions.y1}
+      y2={positions.y2}
+      stroke={stroke}
+      strokeWidth={width}
+    />
+  );
+}
+
+function Circle({
+  axialPosition,
+  fill = 'black',
+  orientation,
+  radialPosition,
+  radius,
+  viewBox,
+}: {
+  axialPosition: number;
+  fill?: string;
+  orientation: Orientation;
+  radialPosition: number;
+  radius: number;
+  viewBox: ViewBox;
+}): React.ReactElement {
+  const positions =
+    orientation === Orientation.Horizontal
+      ? {
+          x: axialPosition,
+          y: radialPosition,
+        }
+      : {
+          x: viewBox.x - radialPosition,
+          y: axialPosition,
+        };
+  return <circle cx={positions.x} cy={positions.y} r={radius} fill={fill} />;
+}
+
+function Pill({
+  axialPosition,
+  length = 20,
+  orientation,
+  radialPosition,
+  viewBox,
+}: {
+  axialPosition: number;
+  length?: number;
+  orientation: Orientation;
+  radialPosition: number;
+  viewBox: ViewBox;
+}): React.ReactElement {
+  const positions =
+    orientation === Orientation.Horizontal
+      ? { height: 20, width: length, x: axialPosition, y: radialPosition - 10 }
+      : {
+          height: length,
+          width: 20,
+          x: viewBox.x - radialPosition - 10,
+          y: axialPosition,
+        };
+  return (
+    <rect
+      height={positions.height}
+      rx={10}
+      ry={10}
+      x={positions.x}
+      y={positions.y}
+      width={positions.width}
+      fill="orange"
+    />
+  );
 }
 
 export default Fretboard;

@@ -29,11 +29,7 @@ export function NameTheNoteFlashcard({
 }): React.ReactElement {
   return (
     <FlashcardWrapper onNext={onNext} onSubmit={onSubmit} status={status}>
-      <Fretboard
-        fret={noteFret}
-        orientation={Orientation.Vertical}
-        string={noteString}
-      />
+      <Fretboard fret={noteFret} string={noteString} />
       <NoteButtons onChange={onSelectNote} selectedNote={selectedNote} />
     </FlashcardWrapper>
   );

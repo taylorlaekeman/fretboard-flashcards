@@ -10,7 +10,7 @@
 .body {
   display: flex;
   flex: 1;
-  flex-direction: row;
+  flex-direction: column;
   height: 50%;
 }
 

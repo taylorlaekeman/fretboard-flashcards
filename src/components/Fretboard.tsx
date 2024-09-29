@@ -207,7 +207,7 @@ function FretMarker({
     <>
       <Circle
         axialPosition={axialCenter}
-        fill="silver"
+        fill="grey"
         orientation={orientation}
         radialPosition={isDouble ? radialCenter + doublePosition : radialCenter}
         radius={10}
@@ -216,7 +216,7 @@ function FretMarker({
       {isDouble && (
         <Circle
           axialPosition={axialCenter}
-          fill="silver"
+          fill="grey"
           orientation={orientation}
           radialPosition={radialCenter - doublePosition}
           radius={10}

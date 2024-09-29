@@ -11,7 +11,12 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  height: 50%;
+}
+
+.body > svg {
+  height: max-content;
+  padding-bottom: 64px;
+  padding-top: 32px;
 }
 
 .footer {

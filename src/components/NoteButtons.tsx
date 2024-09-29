@@ -40,7 +40,7 @@ const NOTES: NoteDetail[] = [
   { label: 'F', shape: Shape.Round, value: Note.F },
   { label: `F${SHARP}/G${FLAT}`, value: Note.FSharpGFlat },
   { label: 'G', shape: Shape.Round, value: Note.G },
-  { label: `A${FLAT}/G${SHARP}`, value: Note.GSharpAFlat },
+  { label: `G${SHARP}/A${FLAT}`, value: Note.GSharpAFlat },
   { label: 'A', shape: Shape.Round, value: Note.A },
   { label: `A${SHARP}/B${FLAT}`, value: Note.ASharpBFlat },
   { label: 'B', shape: Shape.Round, value: Note.B },

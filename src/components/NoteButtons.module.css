@@ -2,6 +2,10 @@
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(4, 1fr);
+
+  @media (min-width: 500px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 .noteButton > input {
@@ -20,5 +24,7 @@
 }
 
 .noteButton.selected > label {
-  background-color: blanchedalmond;
+  background-color: #536878;
+  border: none;
+  color: white;
 }

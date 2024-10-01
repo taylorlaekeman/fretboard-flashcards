@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Button, Shape, Variant } from './Button';
 import styles from './NoteButtons.module.css';
+import textStyles from './Text.module.css';
 import { Note } from '../types/note';
 
 function NoteButtons({
@@ -66,7 +67,9 @@ function NoteButton({
   return (
     <div className={clsx(styles.noteButton, isSelected && styles.selected)}>
       <input id={id} name="note" onChange={() => onSelect()} type="radio" />
-      <label htmlFor={id}>{label}</label>
+      <label className={textStyles.body} htmlFor={id}>
+        {label}
+      </label>
     </div>
   );
 }

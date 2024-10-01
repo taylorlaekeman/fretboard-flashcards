@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import styles from './Button.module.css';
+import textStyles from './Text.module.css';
 
 export function Button({
   children,
@@ -16,7 +17,12 @@ export function Button({
 }): React.ReactElement {
   return (
     <button
-      className={clsx(styles.button, styles[shape], styles[variant])}
+      className={clsx(
+        styles.button,
+        styles[shape],
+        styles[variant],
+        textStyles.body
+      )}
       onClick={() => onClick()}
       type="button"
     >

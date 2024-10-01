@@ -9,7 +9,7 @@ export function PageWrapper({
   return (
     <div className={styles.wrapper}>
       <header className={styles.header}>
-        <Text variant={Variant.MainTitle}>Nitro</Text>
+        <Text variant={Variant.MainTitle}>Fretboard</Text>
       </header>
       <main className={styles.main}>{children}</main>
     </div>

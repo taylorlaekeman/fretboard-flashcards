@@ -21,7 +21,7 @@ export function Button({
         styles.button,
         styles[shape],
         styles[variant],
-        textStyles.body
+        textStyles.body,
       )}
       onClick={() => onClick()}
       type="button"

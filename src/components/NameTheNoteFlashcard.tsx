@@ -1,8 +1,9 @@
 import clsx from 'clsx';
+import dynamic from 'next/dynamic';
 import React from 'react';
 
 import { Button } from './Button';
-import Fretboard, { Orientation } from './Fretboard';
+import { Orientation } from './Fretboard';
 import styles from './NameTheNoteFlashcard.module.css';
 import NoteButtons from './NoteButtons';
 import { PageWrapper } from './PageWrapper';
@@ -10,6 +11,8 @@ import { Note } from '../types/note';
 import { ResultStatus } from '../types/resultStatus';
 import GuitarString from '../types/string';
 import { getNote } from '../utils/getNote';
+
+const Fretboard = dynamic(() => import('./Fretboard'), { ssr: false });
 
 export function NameTheNoteFlashcard({
   noteFret = 5,

@@ -24,7 +24,9 @@ export function NoteButtons({
           isSelected={selectedNote === value}
           key={value}
           label={label}
-          onSelect={() => onChange(value)}
+          onSelect={() => {
+            onChange(value);
+          }}
           resultStatus={value === selectedNote ? resultStatus : undefined}
         />
       ))}
@@ -78,7 +80,7 @@ function NoteButton({
         resultStatus && styles[resultStatus],
       )}
     >
-      <input id={id} name="note" onChange={() => onSelect()} type="radio" />
+      <input id={id} name="note" onClick={onSelect} type="radio" />
       <label className={textStyles.body} htmlFor={id}>
         {label}
       </label>

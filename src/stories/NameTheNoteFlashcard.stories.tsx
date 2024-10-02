@@ -4,9 +4,9 @@ import {
   NameTheNoteFlashcard,
   NameTheNoteFlashcardContainer,
   NameTheNoteFlashcardPage,
-  ResultStatus,
 } from '../components/NameTheNoteFlashcard';
 import { Note } from '../types/note';
+import { ResultStatus } from '../types/resultStatus';
 import GuitarString from '../types/string';
 
 const meta: Meta<typeof NameTheNoteFlashcard> = {

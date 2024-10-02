@@ -38,23 +38,6 @@
   width: 100%;
 }
 
-.buttons {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
-
 .resultBadge {
-  border-radius: 4px;
-  padding: 8px 16px;
-}
-
-.resultBadge.correct {
-  background: #d0f0c0;
-  color: #013220;
-}
-
-.resultBadge.incorrect {
-  background: #ffe4e1;
-  color: #660000;
+  font-size: 1.8em;
 }

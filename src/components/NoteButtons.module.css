@@ -28,3 +28,15 @@
   border: none;
   color: white;
 }
+
+.noteButton.correct > label {
+  background-color: #d0f0c0;
+  border: solid #013220 1px;
+  color: #013220;
+}
+
+.noteButton.incorrect > label {
+  background-color: #ffe4e1;
+  border: solid #65000b 1px;
+  color: #65000b;
+}

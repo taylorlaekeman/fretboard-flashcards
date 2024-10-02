@@ -5,11 +5,10 @@
   "scripts": {
     "build": "next build",
     "check": "npm run typecheck && npm run format:check && npm run lint && npm run test && npm run build",
-    "dev": "next dev",
     "format": "prettier --write src/* __tests__/* --log-level warn",
     "format:check": "prettier --check src/* __tests__/* --log-level warn",
     "lint": "next lint",
-    "start": "serve out",
+    "start": "next dev",
     "test": "jest",
     "typecheck": "tsc -p . --noEmit",
     "storybook": "storybook dev -p 6006",

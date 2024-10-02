@@ -1,11 +1,15 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import NoteButtons from '@/components/NoteButtons';
+import { NoteButtons } from '../components/NoteButtons';
 import { Note } from '../types/note';
+import { ResultStatus } from '../types/resultStatus';
 
 const meta: Meta<typeof NoteButtons> = {
-  args: { selectedNote: Note.C },
+  args: {
+    resultStatus: undefined,
+    selectedNote: undefined,
+  },
   component: NoteButtons,
   title: 'Molecules/NoteButtons',
 };
@@ -13,6 +17,24 @@ const meta: Meta<typeof NoteButtons> = {
 type Story = StoryObj<typeof NoteButtons>;
 
 export const Normal: Story = {};
+
+export const Selected: Story = {
+  args: { selectedNote: Note.C },
+};
+
+export const Correct: Story = {
+  args: {
+    resultStatus: ResultStatus.Correct,
+    selectedNote: Note.C,
+  },
+};
+
+export const Incorrect: Story = {
+  args: {
+    resultStatus: ResultStatus.Incorrect,
+    selectedNote: Note.C,
+  },
+};
 
 export const Container: Story = {
   render: ({ selectedNote, ...props }) => (

@@ -5,12 +5,15 @@ import { Button, Shape, Variant } from './Button';
 import styles from './NoteButtons.module.css';
 import textStyles from './Text.module.css';
 import { Note } from '../types/note';
+import { ResultStatus } from '../types/resultStatus';
 
-function NoteButtons({
+export function NoteButtons({
   onChange = () => {},
+  resultStatus,
   selectedNote,
 }: {
   onChange?: (note: Note) => void;
+  resultStatus?: ResultStatus;
   selectedNote?: Note;
 }): React.ReactElement {
   return (
@@ -22,6 +25,7 @@ function NoteButtons({
           key={value}
           label={label}
           onSelect={() => onChange(value)}
+          resultStatus={value === selectedNote ? resultStatus : undefined}
         />
       ))}
     </div>
@@ -58,14 +62,22 @@ function NoteButton({
   isSelected = false,
   label = '',
   onSelect = () => {},
+  resultStatus,
 }: {
   id?: string;
   isSelected?: boolean;
   label?: string;
   onSelect?: () => void;
+  resultStatus?: ResultStatus;
 }): React.ReactElement {
   return (
-    <div className={clsx(styles.noteButton, isSelected && styles.selected)}>
+    <div
+      className={clsx(
+        styles.noteButton,
+        isSelected && styles.selected,
+        resultStatus && styles[resultStatus],
+      )}
+    >
       <input id={id} name="note" onChange={() => onSelect()} type="radio" />
       <label className={textStyles.body} htmlFor={id}>
         {label}

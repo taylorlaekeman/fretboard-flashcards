@@ -7,6 +7,7 @@ import styles from './NameTheNoteFlashcard.module.css';
 import NoteButtons from './NoteButtons';
 import { PageWrapper } from './PageWrapper';
 import { Note } from '../types/note';
+import { ResultStatus } from '../types/resultStatus';
 import GuitarString from '../types/string';
 import { getNote } from '../utils/getNote';
 
@@ -15,7 +16,6 @@ export function NameTheNoteFlashcard({
   noteString = GuitarString.E,
   onNext = () => {},
   onSelectNote = () => {},
-  onSubmit = () => {},
   selectedNote,
   status,
 }: {
@@ -23,14 +23,17 @@ export function NameTheNoteFlashcard({
   noteString?: GuitarString;
   onSelectNote?: (note: Note) => void;
   onNext?: () => void;
-  onSubmit?: () => void;
   selectedNote?: Note;
   status?: ResultStatus;
 }): React.ReactElement {
   return (
-    <FlashcardWrapper onNext={onNext} onSubmit={onSubmit} status={status}>
+    <FlashcardWrapper onNext={onNext} status={status}>
       <Fretboard fret={noteFret} string={noteString} />
-      <NoteButtons onChange={onSelectNote} selectedNote={selectedNote} />
+      <NoteButtons
+        onChange={onSelectNote}
+        resultStatus={status}
+        selectedNote={selectedNote}
+      />
     </FlashcardWrapper>
   );
 }
@@ -38,12 +41,10 @@ export function NameTheNoteFlashcard({
 function FlashcardWrapper({
   children,
   onNext = () => {},
-  onSubmit = () => {},
   status,
 }: {
   children?: React.ReactNode;
   onNext?: () => void;
-  onSubmit?: () => void;
   status?: ResultStatus;
 }): React.ReactElement {
   return (
@@ -51,7 +52,7 @@ function FlashcardWrapper({
       <div className={styles.body}>{children}</div>
       <div className={styles.footer}>
         <FlashcardResultSection status={status} />
-        <FlashcardControlGroup onNext={onNext} onSubmit={onSubmit} />
+        <Button onClick={onNext}>Next</Button>
       </div>
     </div>
   );
@@ -65,31 +66,11 @@ function FlashcardResultSection({
   return (
     <div>
       {status === ResultStatus.Correct && (
-        <p className={clsx(styles.resultBadge, styles.correct)}>Correct!</p>
+        <p className={styles.resultBadge}>&#x1f389;</p>
       )}
       {status === ResultStatus.Incorrect && (
-        <p className={clsx(styles.resultBadge, styles.incorrect)}>Try again</p>
+        <p className={styles.resultBadge}>&#x1f62d;</p>
       )}
-    </div>
-  );
-}
-
-export enum ResultStatus {
-  Correct = 'correct',
-  Incorrect = 'incorrect',
-}
-
-function FlashcardControlGroup({
-  onNext = () => {},
-  onSubmit = () => {},
-}: {
-  onNext?: () => void;
-  onSubmit?: () => void;
-}): React.ReactElement {
-  return (
-    <div className={styles.buttons}>
-      <Button onClick={onSubmit}>Submit</Button>
-      <Button onClick={onNext}>Next</Button>
     </div>
   );
 }
@@ -111,10 +92,9 @@ export function NameTheNoteFlashcardContainer(): React.ReactElement {
         setNoteFret(getRandomFret());
         setNoteString(getRandomString());
       }}
-      onSelectNote={setSelectedNote}
-      onSubmit={() => {
-        if (!selectedNote) return;
-        setStatus(getStatus({ noteFret, noteString, selectedNote }));
+      onSelectNote={(note) => {
+        setSelectedNote(note);
+        setStatus(getStatus({ noteFret, noteString, selectedNote: note }));
       }}
       selectedNote={selectedNote}
       status={status}

@@ -15,9 +15,6 @@
 
 .noteButton > label {
   align-items: center;
-  border: solid grey 1px;
-  border-radius: 16px;
-  cursor: pointer;
   display: flex;
   height: 32px;
   justify-content: center;
@@ -31,12 +28,12 @@
 
 .noteButton.correct > label {
   background-color: #d0f0c0;
-  border: solid #013220 1px;
+  border: none;
   color: #013220;
 }
 
 .noteButton.incorrect > label {
   background-color: #ffe4e1;
-  border: solid #65000b 1px;
+  border: none;
   color: #65000b;
 }

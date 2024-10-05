@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 
 import { Button, Shape, Variant } from './Button';
+import buttonStyles from './Button.module.css';
 import styles from './NoteButtons.module.css';
 import textStyles from './Text.module.css';
 import { Note } from '../types/note';
@@ -77,11 +78,14 @@ function NoteButton({
       className={clsx(
         styles.noteButton,
         isSelected && styles.selected,
-        resultStatus && styles[resultStatus],
+        resultStatus && styles[resultStatus]
       )}
     >
       <input id={id} name="note" onClick={onSelect} type="radio" />
-      <label className={textStyles.body} htmlFor={id}>
+      <label
+        className={clsx(textStyles.body, buttonStyles.button)}
+        htmlFor={id}
+      >
         {label}
       </label>
     </div>

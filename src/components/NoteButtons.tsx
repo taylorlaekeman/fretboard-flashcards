@@ -78,7 +78,7 @@ function NoteButton({
       className={clsx(
         styles.noteButton,
         isSelected && styles.selected,
-        resultStatus && styles[resultStatus]
+        resultStatus && styles[resultStatus],
       )}
     >
       <input id={id} name="note" onClick={onSelect} type="radio" />

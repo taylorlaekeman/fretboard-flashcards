@@ -13,7 +13,11 @@ const meta: Meta<typeof Text> = {
 
 type Story = StoryObj<typeof Text>;
 
-export const Normal: Story = {};
+export const Body: Story = {};
+
+export const MainTitle: Story = {
+  args: { variant: Variant.MainTitle },
+};
 
 export const Variants: Story = {
   render: ({ children }) => (

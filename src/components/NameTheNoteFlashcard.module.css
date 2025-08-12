@@ -1,5 +1,4 @@
 .wrapper {
-  align-items: center;
   background-color: white;
   border-radius: 8px;
   display: flex;
@@ -14,6 +13,10 @@
   @media (min-width: 800px) and (min-height: 500px) {
     padding: 64px;
   }
+}
+
+.wrapper > p {
+  align-self: end;
 }
 
 .body {

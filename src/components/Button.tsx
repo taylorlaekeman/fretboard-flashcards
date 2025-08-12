@@ -6,11 +6,13 @@ import textStyles from './Text.module.css';
 
 export function Button({
   children,
+  isDisabled = false,
   onClick = () => {},
   shape = Shape.Normal,
   variant = Variant.Normal,
 }: {
   children: React.ReactNode;
+  isDisabled?: boolean;
   onClick?: () => void;
   shape?: Shape;
   variant?: Variant;
@@ -23,6 +25,7 @@ export function Button({
         styles[variant],
         textStyles.body,
       )}
+      disabled={isDisabled}
       onClick={() => onClick()}
       type="button"
     >

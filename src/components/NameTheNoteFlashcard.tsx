@@ -1,12 +1,11 @@
-import clsx from 'clsx';
 import dynamic from 'next/dynamic';
 import React from 'react';
 
 import { Button } from './Button';
-import { Orientation } from './Fretboard';
 import styles from './NameTheNoteFlashcard.module.css';
 import NoteButtons from './NoteButtons';
 import { PageWrapper } from './PageWrapper';
+import { Text } from './Text';
 import { Note } from '../types/note';
 import { ResultStatus } from '../types/resultStatus';
 import GuitarString from '../types/string';
@@ -41,21 +40,30 @@ export function NameTheNoteFlashcard({
   );
 }
 
-function FlashcardWrapper({
+export function FlashcardWrapper({
+  cardNumber,
   children,
   onNext = () => {},
   status,
+  totalCards,
 }: {
+  cardNumber?: number;
   children?: React.ReactNode;
   onNext?: () => void;
   status?: ResultStatus;
+  totalCards?: number;
 }): React.ReactElement {
   return (
     <div className={styles.wrapper}>
+      {cardNumber && totalCards && (
+        <Text>{`${cardNumber} / ${totalCards}`}</Text>
+      )}
       <div className={styles.body}>{children}</div>
       <div className={styles.footer}>
         <FlashcardResultSection status={status} />
-        <Button onClick={onNext}>Next</Button>
+        <Button isDisabled={status !== ResultStatus.Correct} onClick={onNext}>
+          Next
+        </Button>
       </div>
     </div>
   );
@@ -79,6 +87,7 @@ function FlashcardResultSection({
 }
 
 export function NameTheNoteFlashcardContainer(): React.ReactElement {
+  const [cardNumber, setCardNumber] = React.useState<number>(1);
   const [selectedNote, setSelectedNote] = React.useState<Note | undefined>();
   const [noteString, setNoteString] = React.useState<GuitarString>(
     getRandomString(),
@@ -86,24 +95,32 @@ export function NameTheNoteFlashcardContainer(): React.ReactElement {
   const [noteFret, setNoteFret] = React.useState<number>(getRandomFret());
   const [status, setStatus] = React.useState<ResultStatus | undefined>();
   return (
-    <NameTheNoteFlashcard
-      noteFret={noteFret}
-      noteString={noteString}
+    <FlashcardWrapper
+      cardNumber={cardNumber}
       onNext={() => {
         setStatus(undefined);
         setSelectedNote(undefined);
         setNoteFret(getRandomFret());
         setNoteString(getRandomString());
+        setCardNumber((cardNumber + 1) % TOTAL_CARDS);
       }}
-      onSelectNote={(note) => {
-        setSelectedNote(note);
-        setStatus(getStatus({ noteFret, noteString, selectedNote: note }));
-      }}
-      selectedNote={selectedNote}
       status={status}
-    />
+      totalCards={TOTAL_CARDS}
+    >
+      <Fretboard fret={noteFret} string={noteString} />
+      <NoteButtons
+        onChange={(note) => {
+          setSelectedNote(note);
+          setStatus(getStatus({ noteFret, noteString, selectedNote: note }));
+        }}
+        resultStatus={status}
+        selectedNote={selectedNote}
+      />
+    </FlashcardWrapper>
   );
 }
+
+const TOTAL_CARDS = 10;
 
 function getRandomString(): GuitarString {
   return Object.values(GuitarString)[Math.floor(Math.random() * 6)];

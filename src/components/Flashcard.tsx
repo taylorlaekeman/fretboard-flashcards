@@ -5,7 +5,7 @@ import NoteButtons from '@/components/NoteButtons';
 import { Note } from '@/types/note';
 import String from '@/types/string';
 
-const Flashcard: FC<{
+export const Flashcard: FC<{
   fret: number;
   onSelect?: (note: Note) => void;
   string: String;

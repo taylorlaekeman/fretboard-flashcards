@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FlashcardWrapper } from './NameTheNoteFlashcard';
+import { Flashcard } from './Flashcard';
 
-const meta: Meta<typeof FlashcardWrapper> = {
-  component: FlashcardWrapper,
+const meta: Meta<typeof Flashcard> = {
+  component: Flashcard,
   decorators: [
     (Story) => (
       <div
@@ -23,7 +23,7 @@ const meta: Meta<typeof FlashcardWrapper> = {
   title: 'Molecules/Flashcard',
 };
 
-type Story = StoryObj<typeof FlashcardWrapper>;
+type Story = StoryObj<typeof Flashcard>;
 
 export const Playground: Story = {
   args: {

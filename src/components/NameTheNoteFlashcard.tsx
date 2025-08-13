@@ -1,8 +1,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 
-import { Button } from './Button';
-import styles from './NameTheNoteFlashcard.module.css';
+import { Flashcard as FlashcardWrapper } from './Flashcard';
 import NoteButtons from './NoteButtons';
 import { PageWrapper } from './PageWrapper';
 import { Text } from './Text';
@@ -13,96 +12,53 @@ import { getNote } from '../utils/getNote';
 
 const Fretboard = dynamic(() => import('./Fretboard'), { ssr: false });
 
-export function NameTheNoteFlashcard({
-  noteFret = 5,
-  noteString = GuitarString.E,
-  onNext = () => {},
-  onSelectNote = () => {},
-  selectedNote,
-  status,
-}: {
-  noteFret?: number;
-  noteString?: GuitarString;
-  onSelectNote?: (note: Note) => void;
-  onNext?: () => void;
-  selectedNote?: Note;
-  status?: ResultStatus;
-}): React.ReactElement {
-  return (
-    <FlashcardWrapper onNext={onNext} status={status}>
-      <Fretboard fret={noteFret} string={noteString} />
-      <NoteButtons
-        onChange={onSelectNote}
-        resultStatus={status}
-        selectedNote={selectedNote}
-      />
-    </FlashcardWrapper>
-  );
-}
-
-export function FlashcardWrapper({
-  cardNumber,
-  children,
-  onNext = () => {},
-  status,
-  totalCards,
-}: {
-  cardNumber?: number;
-  children?: React.ReactNode;
-  onNext?: () => void;
-  status?: ResultStatus;
-  totalCards?: number;
-}): React.ReactElement {
-  return (
-    <div className={styles.wrapper}>
-      {cardNumber && totalCards && (
-        <Text>{`${cardNumber} / ${totalCards}`}</Text>
-      )}
-      <div className={styles.body}>{children}</div>
-      <div className={styles.footer}>
-        <FlashcardResultSection status={status} />
-        <Button isDisabled={status !== ResultStatus.Correct} onClick={onNext}>
-          Next
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-function FlashcardResultSection({
-  status,
-}: {
-  status?: ResultStatus;
-}): React.ReactElement {
-  return (
-    <div>
-      {status === ResultStatus.Correct && (
-        <p className={styles.resultBadge}>&#x1f389;</p>
-      )}
-      {status === ResultStatus.Incorrect && (
-        <p className={styles.resultBadge}>&#x1f62d;</p>
-      )}
-    </div>
-  );
-}
-
-export function NameTheNoteFlashcardContainer(): React.ReactElement {
-  const [cardNumber, setCardNumber] = React.useState<number>(1);
+export function NameTheNoteFlashcard(): React.ReactElement {
+  const [cardNumber, setCardNumber] = React.useState<number>(0);
   const [selectedNote, setSelectedNote] = React.useState<Note | undefined>();
   const [noteString, setNoteString] = React.useState<GuitarString>(
     getRandomString(),
   );
   const [noteFret, setNoteFret] = React.useState<number>(getRandomFret());
   const [status, setStatus] = React.useState<ResultStatus | undefined>();
+
+  if (cardNumber === 0) {
+    return (
+      <FlashcardWrapper
+        isNextEnabled
+        nextText="Start"
+        onNext={() => {
+          setCardNumber(1);
+        }}
+      >
+        <Text>Fretboard!</Text>
+      </FlashcardWrapper>
+    );
+  }
+
+  if (cardNumber > TOTAL_CARDS) {
+    return (
+      <FlashcardWrapper
+        isNextEnabled
+        nextText="Start"
+        onNext={() => {
+          setCardNumber(1);
+        }}
+      >
+        <Text>Done!</Text>
+      </FlashcardWrapper>
+    );
+  }
+
   return (
     <FlashcardWrapper
       cardNumber={cardNumber}
+      isNextEnabled={status === ResultStatus.Correct}
       onNext={() => {
         setStatus(undefined);
         setSelectedNote(undefined);
         setNoteFret(getRandomFret());
         setNoteString(getRandomString());
-        setCardNumber((cardNumber + 1) % TOTAL_CARDS);
+        setCardNumber(cardNumber + 1);
       }}
       status={status}
       totalCards={TOTAL_CARDS}
@@ -147,7 +103,7 @@ function getStatus({
 export function NameTheNoteFlashcardPage(): React.ReactElement {
   return (
     <PageWrapper>
-      <NameTheNoteFlashcardContainer />
+      <NameTheNoteFlashcard />
     </PageWrapper>
   );
 }

@@ -1,21 +1,56 @@
-import React, { FC } from 'react';
+import React from 'react';
 
-import Fretboard from '@/components/Fretboard';
-import NoteButtons from '@/components/NoteButtons';
-import { Note } from '@/types/note';
-import String from '@/types/string';
+import { Button } from './Button';
+import styles from './NameTheNoteFlashcard.module.css';
+import { Text } from './Text';
+import { ResultStatus } from '../types/resultStatus';
 
-export const Flashcard: FC<{
-  fret: number;
-  onSelect?: (note: Note) => void;
-  string: String;
-}> = ({ fret, onSelect = () => {}, string }) => {
+export function Flashcard({
+  cardNumber,
+  children,
+  isNextEnabled = true,
+  nextText = 'Next',
+  onNext = () => {},
+  status,
+  totalCards,
+}: {
+  cardNumber?: number;
+  children?: React.ReactNode;
+  isNextEnabled?: boolean;
+  nextText?: string;
+  onNext?: () => void;
+  status?: ResultStatus;
+  totalCards?: number;
+}): React.ReactElement {
   return (
-    <>
-      <Fretboard fret={fret} string={string} />
-      <NoteButtons onChange={onSelect} />
-    </>
+    <div className={styles.wrapper}>
+      {cardNumber && totalCards && (
+        <Text>{`${cardNumber} / ${totalCards}`}</Text>
+      )}
+      <div className={styles.body}>{children}</div>
+      <div className={styles.footer}>
+        <FlashcardResultSection status={status} />
+        <Button isDisabled={!isNextEnabled} onClick={onNext}>
+          {nextText}
+        </Button>
+      </div>
+    </div>
   );
-};
+}
 
-export default Flashcard;
+function FlashcardResultSection({
+  status,
+}: {
+  status?: ResultStatus;
+}): React.ReactElement {
+  return (
+    <div>
+      {status === ResultStatus.Correct && (
+        <p className={styles.resultBadge}>&#x1f389;</p>
+      )}
+      {status === ResultStatus.Incorrect && (
+        <p className={styles.resultBadge}>&#x1f62d;</p>
+      )}
+    </div>
+  );
+}

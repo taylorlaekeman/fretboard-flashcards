@@ -1,4 +1,25 @@
+import styled, { css } from 'styled-components';
 import styles from './Text.module.css';
+
+const sharedCss = css`
+  color: #2a3439;
+  font-family: 'Helvetica', 'Arial', 'sans-serif';
+`;
+
+export const H1 = styled.h1`
+  ${sharedCss}
+`;
+
+export const H2 = styled.h2`
+  ${sharedCss}
+  font-size: 1.4rem;
+  font-weight: 400;
+`;
+
+export const P = styled.p`
+  ${sharedCss}
+  font-size: 1rem;
+`;
 
 export function Text({
   children = '',

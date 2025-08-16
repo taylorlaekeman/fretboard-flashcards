@@ -4,22 +4,26 @@ import React from 'react';
 import { Flashcard as FlashcardWrapper } from './Flashcard';
 import NoteButtons from './NoteButtons';
 import { PageWrapper } from './PageWrapper';
-import { Text } from './Text';
+import { H2, P, Text } from './Text';
 import { Note } from '../types/note';
 import { ResultStatus } from '../types/resultStatus';
-import GuitarString from '../types/string';
-import { getNote } from '../utils/getNote';
+import { useRandomNote } from '@/hooks/useRandomNote';
+import { Guess, useGuesses } from '@/hooks/useGuesses';
 
 const Fretboard = dynamic(() => import('./Fretboard'), { ssr: false });
 
 export function NameTheNoteFlashcard(): React.ReactElement {
   const [cardNumber, setCardNumber] = React.useState<number>(0);
   const [selectedNote, setSelectedNote] = React.useState<Note | undefined>();
-  const [noteString, setNoteString] = React.useState<GuitarString>(
-    getRandomString(),
-  );
-  const [noteFret, setNoteFret] = React.useState<number>(getRandomFret());
-  const [status, setStatus] = React.useState<ResultStatus | undefined>();
+  const { guess, guesses, start } = useGuesses<Note>();
+  const {
+    next: getNextNote,
+    note: expectedNote,
+    noteFret,
+    noteString,
+  } = useRandomNote();
+
+  const status = getStatus({ expectedNote, selectedNote });
 
   if (cardNumber === 0) {
     return (
@@ -27,10 +31,12 @@ export function NameTheNoteFlashcard(): React.ReactElement {
         isNextEnabled
         nextText="Start"
         onNext={() => {
+          start(expectedNote);
           setCardNumber(1);
         }}
       >
-        <Text>Fretboard!</Text>
+        <H2>Fretboard</H2>
+        <P>Learn the fretboard</P>
       </FlashcardWrapper>
     );
   }
@@ -44,7 +50,17 @@ export function NameTheNoteFlashcard(): React.ReactElement {
           setCardNumber(1);
         }}
       >
-        <Text>Done!</Text>
+        <Text>Done</Text>
+        <P>Accuracy {Math.round((10 / guesses.length) * 100)}%</P>
+        <P>Average Time {Math.round(getAverageTime(guesses) / 100) / 10}</P>
+        <ul>
+          {guesses.map((guess, index) => (
+            <li key={`${guess.guess}-${index}`}>
+              {guess.guess} ({guess.status}, {Math.round(guess.time / 100) / 10}
+              )
+            </li>
+          ))}
+        </ul>
       </FlashcardWrapper>
     );
   }
@@ -54,11 +70,10 @@ export function NameTheNoteFlashcard(): React.ReactElement {
       cardNumber={cardNumber}
       isNextEnabled={status === ResultStatus.Correct}
       onNext={() => {
-        setStatus(undefined);
         setSelectedNote(undefined);
-        setNoteFret(getRandomFret());
-        setNoteString(getRandomString());
+        const { note } = getNextNote();
         setCardNumber(cardNumber + 1);
+        start(note);
       }}
       status={status}
       totalCards={TOTAL_CARDS}
@@ -67,7 +82,7 @@ export function NameTheNoteFlashcard(): React.ReactElement {
       <NoteButtons
         onChange={(note) => {
           setSelectedNote(note);
-          setStatus(getStatus({ noteFret, noteString, selectedNote: note }));
+          guess(note);
         }}
         resultStatus={status}
         selectedNote={selectedNote}
@@ -78,32 +93,33 @@ export function NameTheNoteFlashcard(): React.ReactElement {
 
 const TOTAL_CARDS = 10;
 
-function getRandomString(): GuitarString {
-  return Object.values(GuitarString)[Math.floor(Math.random() * 6)];
-}
-
-function getRandomFret(): number {
-  return Math.floor(Math.random() * 12);
-}
-
-function getStatus({
-  noteFret,
-  noteString,
-  selectedNote,
-}: {
-  noteFret: number;
-  noteString: GuitarString;
-  selectedNote: Note;
-}): ResultStatus {
-  const correctNote = getNote(noteString, noteFret);
-  if (selectedNote === correctNote) return ResultStatus.Correct;
-  return ResultStatus.Incorrect;
-}
-
 export function NameTheNoteFlashcardPage(): React.ReactElement {
   return (
     <PageWrapper>
       <NameTheNoteFlashcard />
     </PageWrapper>
   );
+}
+
+function getStatus({
+  expectedNote,
+  selectedNote,
+}: {
+  expectedNote: Note;
+  selectedNote?: Note;
+}): ResultStatus | undefined {
+  if (!selectedNote) return undefined;
+  if (selectedNote === expectedNote) return ResultStatus.Correct;
+  return ResultStatus.Incorrect;
+}
+
+function getAverageTime(guesses: Guess<Note>[]): number {
+  const correctGuesses = guesses.filter(
+    (guess) => guess.status === ResultStatus.Correct,
+  );
+  const totalTime = correctGuesses.reduce(
+    (total, guess) => (total += guess.time),
+    0,
+  );
+  return totalTime / correctGuesses.length;
 }

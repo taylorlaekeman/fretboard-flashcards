@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Flashcard from '@/components/Flashcard';
-import String from '@/types/string';
+import { Flashcard } from '@/components/Flashcard';
 
 const meta: Meta<typeof Flashcard> = {
   component: Flashcard,
@@ -11,10 +10,7 @@ const meta: Meta<typeof Flashcard> = {
 type Story = StoryObj<typeof Flashcard>;
 
 export const Normal: Story = {
-  args: {
-    fret: 0,
-    string: String.E,
-  },
+  args: {},
 };
 
 export default meta;

@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import Button from '@/components/Button';
-import Flashcard from '@/components/Flashcard';
+import { Flashcard } from '@/components/Flashcard';
 import { PageWrapper } from './PageWrapper';
 import useRandomLocation from '@/hooks/useRandomLocation';
 import { Note } from '@/types/note';
@@ -15,13 +15,7 @@ const FretboardFlashcards: FC = () => {
   return (
     <PageWrapper>
       <h1>Fretboard Flashcards</h1>
-      <Flashcard
-        fret={fret}
-        onSelect={(note) => {
-          setSelectedNote(note);
-        }}
-        string={string}
-      />
+      <Flashcard />
       {selectedNote && isCorrect && <p>correct!</p>}
       {selectedNote && !isCorrect && <p>wrong</p>}
       <Button

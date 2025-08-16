@@ -1,10 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import {
-  NameTheNoteFlashcard,
-  NameTheNoteFlashcardContainer,
-  NameTheNoteFlashcardPage,
-} from '../components/NameTheNoteFlashcard';
+import { NameTheNoteFlashcard } from '../components/NameTheNoteFlashcard';
 import { Note } from '../types/note';
 import { ResultStatus } from '../types/resultStatus';
 import GuitarString from '../types/string';
@@ -30,10 +26,6 @@ export const Correct: Story = {
 
 export const Incorrect: Story = {
   args: { status: ResultStatus.Incorrect },
-};
-
-export const Container: Story = {
-  render: () => <NameTheNoteFlashcardContainer />,
 };
 
 export default meta;
